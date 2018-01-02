@@ -10,7 +10,7 @@ define irssi::user_script(
   String $config_dir,
   String $owner,
   String $source,
-  Optional[String] $user_config,
+  Optional[String] $user_config = undef,
   Boolean $autorun = false,
   String $script_name = $name,
 ) {
