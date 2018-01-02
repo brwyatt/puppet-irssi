@@ -14,6 +14,7 @@ define irssi::user_config(
   String $user_name = 'irssiuser',
   String $nick_name = 'irssiuser',
   Array[Hash[String, String]] $windows = [],
+  Boolean $purge_scripts = false,
 ) {
   file { $config_dir:
     ensure => directory,
@@ -27,5 +28,22 @@ define irssi::user_config(
     owner   => $owner,
     group   => $owner,
     content => template('irssi/config.erb'),
+  }
+
+  file { "${config_dir}/config/scripts":
+    ensure  => directory,
+    mode    => '0664',
+    owner   => $owner,
+    group   => $owner,
+    purge   => $purge_scripts,
+    recurse => true,
+  }
+  file { "${config_dir}/config/scripts/autorun":
+    ensure  => directory,
+    mode    => '0664',
+    owner   => $owner,
+    group   => $owner,
+    purge   => $purge_scripts,
+    recurse => true,
   }
 }

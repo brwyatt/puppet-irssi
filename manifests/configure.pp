@@ -9,4 +9,5 @@
 class irssi::configure {
   # No global config, but we can realize the user configs here
   Irssi::User_config <| |>
+  Irssi::User_script <| |>
 }
