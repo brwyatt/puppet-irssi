@@ -30,7 +30,7 @@ define irssi::user_config(
     content => template('irssi/config.erb'),
   }
 
-  file { "${config_dir}/config/scripts":
+  file { "${config_dir}/scripts":
     ensure  => directory,
     mode    => '0664',
     owner   => $owner,
@@ -38,7 +38,7 @@ define irssi::user_config(
     purge   => $purge_scripts,
     recurse => true,
   }
-  file { "${config_dir}/config/scripts/autorun":
+  file { "${config_dir}/scripts/autorun":
     ensure  => directory,
     mode    => '0664',
     owner   => $owner,

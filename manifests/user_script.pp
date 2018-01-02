@@ -20,7 +20,7 @@ define irssi::user_script(
     $_user_config = $config_dir
   }
 
-  file { "${config_dir}/config/scripts/${script_name}":
+  file { "${config_dir}/scripts/${script_name}":
     ensure  => file,
     owner   => $owner,
     group   => $owner,
@@ -30,7 +30,7 @@ define irssi::user_script(
   }
 
   if $autorun {
-    file { "${config_dir}/config/scripts/autorun/${script_name}":
+    file { "${config_dir}/scripts/autorun/${script_name}":
       ensure  => link,
       owner   => $owner,
       group   => $owner,
