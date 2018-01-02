@@ -35,7 +35,7 @@ define irssi::user_script(
       owner   => $owner,
       group   => $owner,
       mode    => '0777',
-      target  => "${config_dir}/config/scripts/${script_name}",
+      target  => "../${script_name}",
       require => Irssi::User_config[$_user_config],
     }
   }
