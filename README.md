@@ -1,81 +1,119 @@
 
 # irssi
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
+[![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://raw.githubusercontent.com/brwyatt/puppet-irssi/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/brwyatt/puppet-irssi.svg)](https://github.com/brwyatt/puppet-irssi/issues)
+[![GitHub forks](https://img.shields.io/github/forks/brwyatt/puppet-irssi.svg)](https://github.com/brwyatt/puppet-irssi/network)
+[![GitHub stars](https://img.shields.io/github/stars/brwyatt/puppet-irssi.svg)](https://github.com/brwyatt/puppet-irssi/stargazers)
 
-The README template below provides a starting point with details about what information to include in your README.
-
-
-
-
-
-
+[![Puppet Forge](https://img.shields.io/puppetforge/v/brwyatt/irssi.svg)](https://forge.puppetlabs.com/brwyatt/irssi)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/brwyatt/irssi.svg)](https://forge.puppetlabs.com/brwyatt/irssi)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/brwyatt/irssi.svg)](https://forge.puppetlabs.com/brwyatt/irssi)
 
 #### Table of Contents
 
 1. [Description](#description)
-2. [Setup - The basics of getting started with irssi](#setup)
+1. [Setup - The basics of getting started with irssi](#setup)
     * [What irssi affects](#what-irssi-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with irssi](#beginning-with-irssi)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+1. [Usage - Configuration options and additional functionality](#usage)
+1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Limitations - OS compatibility, etc.](#limitations)
+1. [Development - Guide for contributing to the module](#development)
+1. [Contributors - List of those who've helped to make the module better](#contributors)
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what problem it solves. This is your 30-second elevator pitch for your module. Consider including OS/Puppet version it works with.
-
-You can give more descriptive information in a second paragraph. This paragraph should answer the questions: "What does this module *do*?" and "Why would I use it?" If your module has a range of functionality (installation, configuration, management, etc.), this is the time to mention it.
+This module provides simple classes and types for installing the irssi chat client on a system, and setting up user configuration and scripts.
 
 ## Setup
 
-### What irssi affects **OPTIONAL**
+### What irssi affects
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
+This module installs the irssi package and may optionally be used to manage one or more user configuration directories.
 
-If there's more that they should know about, though, this is the place to mention:
+### Setup Requirements
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+Currently, this module only supports Ubuntu (tested on Ubuntu 14.04), but will likely work on otehr Debian-based distributions.
 
 ### Beginning with irssi
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+To install this modual, call:
+
+```bash
+puppet module install brwyatt-irssi
+```
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the fancy stuff with your module here. It's especially helpful if you include usage examples and code samples for doing things with your module.
+To install irssi on agent, simply include it into your manifests.
+
+```puppet
+include ::irssi
+```
 
 ## Reference
 
-Users need a complete list of your module's classes, types, defined types providers, facts, and functions, along with the parameters for each. You can provide this list either via Puppet Strings code comments or as a complete list in the README Reference section.
+* [Classes](#classes)
+* [Defined Types](#defined-types)
 
-* If you are using Puppet Strings code comments, this Reference section should include Strings information so that your users know how to access your documentation.
+### Classes
 
-* If you are not using Puppet Strings, include a list of all of your classes, defined types, and so on, along with their parameters. Each element in this listing should include:
+#### `irssi`
+Installs and realizes user configuration for irssi by including `irssi::install` and `irssi::configure`.
 
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
+#### `irssi::configure`
+Realizes user configuration for irssi.
+
+Realizes all `irssi::user_config` and `irssi::user_script` resources.
+
+#### `irssi::install`
+Installs the irssi package with the default system package provider.
+
+Default values for class parameters are derived from Hiera data files in `irssi/data/`
+
+Parameters:
+* `package_ensure`: Package ensure value (defaults to "latest")
+* `package_name`: Name of the package (defaults to "irssi" on Debian)
+
+### Defined Types
+
+#### `irssi::user_config`
+Manages an irssi config directory and config file.
+
+Parameters:
+* `owner`: (required) System owner of the files and directories
+* `config_dir`: (namevar) Path of the config directory to manage
+* `networks`: Hash of networks and their configurations **TODO: Describe structure**
+* `real_name`: Default real name of the user
+* `user_name`: Default user name of the user
+* `nick_name`: Default nick name of the user
+* `windows`: Array of pre-defined windows and their settings **TODO: Describe structure**
+* `purge_scripts`: Whether the scripts directory should have unmanaged scripts purged (default: false)
+
+#### `irssi::user_script`
+Manages scripts installed in a config directory.
+
+Parameters:
+* `config_dir`: (required) Config directory this script should be installed to
+* `owner`: (required) System owner of the script
+* `source`: (required) Source for the file
+* `user_config`: (optional) Name of the `irssi::user_config` if named differently than the default `config_dir`
+* `autorun`: Controls whether the script should be enabled to auto-load on irssi start. (default: false)
+* `script_name`: (namevar) The filename for the script file
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there are Known Issues, you might want to include them under their own heading here.
+Currently, this module is only tested against Ubuntu 16.04. It will likely work on other Debian-based distributions, and may or may not work on RedHat-based distributions, but makes no claims regarding such.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
+Feel free to file issues in the GitHub [issue tracker](https://github.com/brwyatt/puppet-irssi/issues) for the repository, or submit [Pull Requests](https://github.com/brwyatt/puppet-irssi/pulls).
 
-## Release Notes/Contributors/Etc. **Optional**
+I may not have much time to work on (or test) this myself, so help to expand current functionality (especially to make it work for more people) is greatly appreciated and encouraged.
 
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+
+## Contributors
+
+The list of contributors can be found at: [https://github.com/brwyatt/puppet-irssi/graphs/contributors](https://github.com/brwyatt/puppet-irssi/graphs/contributors).
