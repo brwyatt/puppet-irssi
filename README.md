@@ -98,7 +98,8 @@ Manages scripts installed in a config directory.
 Parameters:
 * `config_dir`: (required) Config directory this script should be installed to
 * `owner`: (required) System owner of the script
-* `source`: (required) Source for the file
+* `source`: Source for the file (required unless `content` defined)
+* `content`: Content of the file (required unless `source` defined)
 * `user_config`: (optional) Name of the `irssi::user_config` if named differently than the default `config_dir`
 * `autorun`: Controls whether the script should be enabled to auto-load on irssi start. (default: false)
 * `script_name`: (namevar) The filename for the script file
