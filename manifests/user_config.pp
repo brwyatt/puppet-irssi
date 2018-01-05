@@ -37,6 +37,7 @@ define irssi::user_config(
     group   => $owner,
     purge   => $purge_scripts,
     recurse => true,
+    force   => $purge_scripts,
   }
   file { "${config_dir}/scripts/autorun":
     ensure  => directory,
@@ -45,5 +46,6 @@ define irssi::user_config(
     group   => $owner,
     purge   => $purge_scripts,
     recurse => true,
+    force   => $purge_scripts,
   }
 }
