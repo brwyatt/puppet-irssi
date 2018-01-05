@@ -12,4 +12,4 @@ Initial release
 - Manage basic config file
 - Manage scripts
 
-[0.1.0]: https://github.com/brwyatt/puppet-flatpak/compare/efdb231...v0.1.0
+[0.1.0]: https://github.com/brwyatt/puppet-irssi/compare/efdb231...v0.1.0
