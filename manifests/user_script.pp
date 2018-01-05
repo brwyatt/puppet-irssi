@@ -9,7 +9,8 @@
 define irssi::user_script(
   String $config_dir,
   String $owner,
-  String $source,
+  Optional[String] $source = undef,
+  Optional[String] $content = undef,
   Optional[String] $user_config = undef,
   Boolean $autorun = false,
   String $script_name = $name,
@@ -26,6 +27,7 @@ define irssi::user_script(
     group   => $owner,
     mode    => '0664',
     source  => $source,
+    content => $content,
     require => Irssi::User_config[$_user_config],
   }
 
