@@ -5,7 +5,7 @@ describe 'irssi::user_script' do
   let(:params) do
     {
       'owner' => 'user',
-      'config_dir' => '/test/path'
+      'config_dir' => '/test/path',
     }
   end
   let(:pre_condition) do
