@@ -1,9 +1,15 @@
 require 'spec_helper'
 
 describe 'irssi::user_script' do
-  let(:title) { 'namevar' }
+  let(:title) { 'script.pl' }
   let(:params) do
-    {}
+    {
+      'owner' => 'user',
+      'config_dir' => '/test/path'
+    }
+  end
+  let(:pre_condition) do
+    'irssi::user_config{ "/test/path": owner => "user" }'
   end
 
   on_supported_os.each do |os, os_facts|
