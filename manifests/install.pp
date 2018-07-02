@@ -14,4 +14,8 @@ class irssi::install (
   package { $package_name:
     ensure => $package_ensure,
   }
+
+  if defined(Exec['apt_update']) {
+    Exec['apt_update'] -> Package[$package_name]
+  }
 }
