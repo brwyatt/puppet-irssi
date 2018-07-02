@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Maintenance release
 ### Added
 - Add dependency for package resource on Exec[apt\_update], if it is defined
+- PDK update
 
 ## [0.1.1] - 2018-01-05
 Re-release
