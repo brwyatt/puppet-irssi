@@ -1,5 +1,6 @@
-
 # irssi
+
+[![Build Status](https://travis-ci.com/brwyatt/puppet-irssi.svg?branch=master)](https://travis-ci.com/brwyatt/puppet-irssi)
 
 [![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://raw.githubusercontent.com/brwyatt/puppet-irssi/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/brwyatt/puppet-irssi.svg)](https://github.com/brwyatt/puppet-irssi/issues)
